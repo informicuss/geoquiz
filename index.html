@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>ГеоКвиз: Воды мира</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+  <h1>ГеоКвиз: Найди географический объект</h1>
+  <div id="modeSwitch">
+  <button onclick="setMode('learn')">Режим обучения</button>
+  <button onclick="setMode('quiz')">Режим квиза</button>
+</div>
+  <div id="question">Загрузка вопроса...</div>
+  <button id="nextBtn">Новый вопрос</button>
+  <div id="map"></div>
+  <div id="feedback"></div>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
