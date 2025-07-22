@@ -118,9 +118,11 @@ function removeHighlightLayers() {
 
 // Load GeoJSON by topic
 function loadGeoJSONForTopic(topic) {
-  fetch(`${topic}.geojson`)
+  // Загружаем GeoJSON из текущей директории
+  const url = `${topic}.geojson`;
+  fetch(url)
     .then(res => {
-      if (!res.ok) throw new Error(`Не удалось загрузить ${topic}.geojson`);
+      if (!res.ok) throw new Error(`Не удалось загрузить ${url}`);
       return res.json();
     })
     .then(data => {
@@ -129,7 +131,7 @@ function loadGeoJSONForTopic(topic) {
     })
     .catch(error => {
       console.error(error);
-      alert('Ошибка при загрузке данных темы.');
+      alert('Ошибка при загрузке данных темы: ' + error.message);
     });
 }
 
