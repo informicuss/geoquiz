@@ -1,23 +1,42 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>ГеоКвиз: Воды мира</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ГеоКвиз: История путешествий и открытий</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 </head>
 <body>
-  <h1>ГеоКвиз: Найди географический объект</h1>
+  <header>
+    <h1>ГеоКвиз: История путешествий и открытий</h1>
+  </header>
+
+  <section id="controls">
+    <label for="topic-select">Тема:</label>
+    <select id="topic-select" onchange="startQuiz()">
+      <option value="" disabled selected>Выберите тему</option>
+      <option value="columbus">Путешествия Христофора Колумба</option>
+      <option value="magellan">Путешествия Фернандо Магеллана</option>
+      <option value="vasco">Путешествия Васко да Гамы</option>
+      <option value="cook">Путешествия Джеймса Кука</option>
+      <option value="polo">Путешествия Марко Поло</option>
+      <option value="bering">Путешествия Витуса Беринга</option>
+    </select>
+  </section>
+
   <div id="modeSwitch">
-  <button onclick="setMode('learn')">Режим обучения</button>
-  <button onclick="setMode('quiz')">Режим квиза</button>
-</div>
-  <div id="question">Загрузка вопроса...</div>
+    <button onclick="setMode('learn')">Режим обучения</button>
+    <button onclick="setMode('quiz')">Режим квиза</button>
+  </div>
+
+  <div id="question">Выберите тему.</div>
   <button id="nextBtn">Новый вопрос</button>
-  <div id="map"></div>
-  <div id="feedback"></div>
+
+  <div id="map" style="height: 500px;"></div>
+  <div id="feedback" style="margin-top: 10px;"></div>
+
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
   <script src="app.js"></script>

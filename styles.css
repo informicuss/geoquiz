@@ -29,3 +29,8 @@ h1 {
   margin-top: 10px;
   font-size: 18px;
 }
+
+#modeSwitch button.active {
+  background-color: #3388ff;
+  color: white;
+}
