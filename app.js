@@ -5,7 +5,7 @@ let map = L.map('map', {
   maxBounds: [[-85, -180], [85, 180]],
   maxBoundsViscosity: 1.0,
   minZoom: 2,
-  maxZoom: 6
+  maxZoom: 8
 }).setView([20, 0], 2);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
