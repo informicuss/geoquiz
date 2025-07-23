@@ -2,36 +2,30 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>ГеоКвиз: Воды мира</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ГеоКвиз: История путешествий и открытий</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
-  <header>
-    <h1>ГеоКвиз: История путешествий и открытий</h1>
-  </header>
-
-  <section id="controls">
-    <label for="topic-select">Тема:</label>
-    <select id="topic-select" onchange="startQuiz()">
-    <option value="" disabled selected>Выберите тему</option>
-    <option value="inland">Исследования внутренних частей материков</option>
-    <option value="rus_travel">Русские путешественники</option>
-    </select>
-  </section>
+  <h1>ГеоКвиз: Найди географический объект</h1>
 
   <div id="modeSwitch">
     <button onclick="setMode('learn')">Режим обучения</button>
     <button onclick="setMode('quiz')">Режим квиза</button>
   </div>
 
-  <div id="question">Выберите тему.</div>
-  <button id="nextBtn">Новый вопрос</button>
+  <div id="themeSelector" style="margin: 10px 0;">
+    <label for="themeSelect">Тема:&nbsp;</label>
+    <select id="themeSelect"></select>
+  </div>
 
-  <div id="map" style="height: 500px;"></div>
-  <div id="feedback" style="margin-top: 10px;"></div>
+  <h2 id="themeName" style="margin: 5px 0; font-weight: normal;"></h2>
+
+  <div id="question">Загрузка вопроса...</div>
+  <button id="nextBtn">Новый вопрос</button>
+  <div id="map"></div>
+  <div id="feedback"></div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>

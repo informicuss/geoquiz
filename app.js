@@ -18,6 +18,56 @@ let allLayer;
 let currentFeature;
 let currentMode = 'learn';
 
+// Список тем: название → файл
+const themes = {
+  "Исследования внутренних частей материков": "research_internal_continents_with_geom.geojson",
+  "Русские путешественники": "russian_explorers_with_geom.geojson",
+  "Географические открытия Древности": "ancient_discoveries_with_geom.geojson",
+  "Географические открытия Средневековья": "medieval_discoveries_with_geom.geojson"
+};
+
+// Заполняем селектор тем и навешиваем обработчик
+function populateThemeSelector() {
+  const select = document.getElementById('themeSelect');
+  Object.keys(themes).forEach(themeName => {
+    const opt = document.createElement('option');
+    opt.value = themes[themeName];
+    opt.text = themeName;
+    select.appendChild(opt);
+  });
+  select.addEventListener('change', () => {
+    const file = select.value;
+    document.getElementById('themeName').textContent = select.options[select.selectedIndex].text;
+    loadGeoJSON(file);
+  });
+}
+
+// Загрузка GeoJSON и отрисовка
+function loadGeoJSON(url) {
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      geojsonData = data;
+      removeHighlightLayers();
+      if (currentMode === 'learn') renderLearnMode();
+      else renderQuizMode();
+    })
+    .catch(err => {
+      console.error("Ошибка загрузки", url, err);
+      document.getElementById('question').textContent = "Не удалось загрузить данные темы.";
+    });
+}
+
+// При старте страницы
+document.addEventListener('DOMContentLoaded', () => {
+  populateThemeSelector();
+  // Выбираем первую тему по умолчанию
+  const select = document.getElementById('themeSelect');
+  select.selectedIndex = 0;
+  document.getElementById('themeName').textContent = select.options[0].text;
+  loadGeoJSON(select.value);
+});
+
 // Cache mode buttons and next button
 const learnBtn = document.querySelector('#modeSwitch button:nth-child(1)');
 const quizBtn = document.querySelector('#modeSwitch button:nth-child(2)');
@@ -54,11 +104,11 @@ function renderLearnMode() {
     style: { color: '#0077cc', weight: 1, fillOpacity: 0.2 },
     onEachFeature: function (feature, layer) {
       layer.on('click', () => {
-        const name = feature.properties.name_ru;
+        const name = feature.properties.name;
         const desc = feature.properties.description || 'Описание отсутствует';
         document.getElementById('feedback').innerHTML = `<h3>${name}</h3><p>${desc}</p>`;
       });
-      const popupContent = `<strong>${feature.properties.name_ru}</strong>`;
+      const popupContent = `<strong>${feature.properties.name}</strong>`;
       layer.bindPopup(popupContent);
     }
   }).addTo(map);
