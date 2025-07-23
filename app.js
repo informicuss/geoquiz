@@ -54,11 +54,11 @@ function renderLearnMode() {
     style: { color: '#0077cc', weight: 1, fillOpacity: 0.2 },
     onEachFeature: function (feature, layer) {
       layer.on('click', () => {
-        const name = feature.properties.name;
+        const name = feature.properties.name_ru;
         const desc = feature.properties.description || 'Описание отсутствует';
         document.getElementById('feedback').innerHTML = `<h3>${name}</h3><p>${desc}</p>`;
       });
-      const popupContent = `<strong>${feature.properties.name}</strong>`;
+      const popupContent = `<strong>${feature.properties.name_ru}</strong>`;
       layer.bindPopup(popupContent);
     }
   }).addTo(map);
