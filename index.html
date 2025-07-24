@@ -4,28 +4,40 @@
   <meta charset="UTF-8">
   <title>Гео тренажер</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
-  <h1>Тренажер географической номенклатуры</h1>
+  <div id="container">
+    <aside id="sidebar">
+      <h1>Тренажер географической номенклатуры</h1>
 
-  <div id="modeSwitch">
-    <button onclick="setMode('learn')">Режим обучения</button>
-    <button onclick="setMode('quiz')">Режим квиза</button>
+      <div id="modeSwitch" class="control-group">
+        <button class="mode-btn active" id="learnBtn" onclick="setMode('learn')">Обучение</button>
+        <button class="mode-btn" id="quizBtn" onclick="setMode('quiz')">Квиз</button>
+      </div>
+
+      <div id="themeSelector" class="control-group">
+        <label for="themeSelect">Тема:</label>
+        <select id="themeSelect"></select>
+      </div>
+
+      <div id="info" class="control-group">
+        <div id="themeName" style="display:none">Загрузка...</div>
+        <div id="question">Выберите тему и нажмите «Новый вопрос»</div>
+        <div id="feedback"></div>
+        <button id="nextBtn">Новый вопрос</button>
+      </div>
+    </aside>
+    <main id="map"></main>
   </div>
-
-  <div id="themeSelector" style="margin: 10px 0;">
-    <label for="themeSelect">Тема:&nbsp;</label>
-    <select id="themeSelect" style="height: 25px;"></select>
-  </div>
-
-  <h2 id="themeName" style="margin: 5px 0; font-weight: normal;"></h2>
-
-  <div id="question">Загрузка вопроса...</div>
-  <button id="nextBtn">Новый вопрос</button>
-  <div id="map"></div>
-  <div id="feedback"></div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>

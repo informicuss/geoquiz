@@ -1,12 +1,16 @@
 // app.js
+
+// Определяем, это мобильное устройство?
+const isMobile = window.innerWidth <= 768;
+
 let map = L.map('map', {
   attributionControl: false,
   worldCopyJump: false,
-  maxBounds: [[-85, -180], [85, 180]],
-  maxBoundsViscosity: 1.0,
-  minZoom: 2,
+  // maxBounds: [[-85, -180], [85, 180]],
+  // maxBoundsViscosity: 1.0,
+  minZoom: isMobile ? 1 : 2,
   maxZoom: 8
-}).setView([20, 0], 2);
+}).fitWorld().setView([0, 0], 2);
 
 // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
@@ -70,6 +74,38 @@ document.addEventListener('DOMContentLoaded', () => {
   loadGeoJSON(select.value);
 });
 
+// вместо простого fitWorld в window.load делаем:
+window.addEventListener('load', () => {
+  // пересчитаем размеры
+  map.invalidateSize(true);
+
+  // найдём размеры контейнера
+  const mapDiv = document.getElementById('map');
+  const w = mapDiv.clientWidth;
+  const h = mapDiv.clientHeight;
+
+  // сколько тайлов нужно по ширине/высоте
+  const tilesX = w / 256;
+  const tilesY = h / 256;
+
+  // логарифм по основанию 2 даёт нужный зум
+  const zoomX = Math.log2(tilesX);
+  const zoomY = Math.log2(tilesY);
+
+  // берём потолок, чтобы покрыть и по ширине, и по высоте
+  let startZoom = Math.ceil(Math.max(zoomX, zoomY));
+
+  // не выходим за пределы настроенных min/max
+  startZoom = Math.min(startZoom, map.getMaxZoom());
+  startZoom = Math.max(startZoom, map.getMinZoom());
+
+  // устанавливаем
+  map.setView([0, 0], startZoom);
+});
+
+// при ресайзе просто пересчитываем контейнер
+window.addEventListener('resize', () => map.invalidateSize(true));
+
 // Cache mode buttons and next button
 const learnBtn = document.querySelector('#modeSwitch button:nth-child(1)');
 const quizBtn = document.querySelector('#modeSwitch button:nth-child(2)');
@@ -106,6 +142,9 @@ function renderLearnMode() {
     style: { color: '#0077cc', weight: 1, fillOpacity: 0.2 },
     onEachFeature: function (feature, layer) {
       layer.on('click', () => {
+        // 1) Скрываем инструкцию:
+        document.getElementById('question').textContent = '';
+        // 2) Показываем инфо по объекту:
         const name = feature.properties.name;
         const desc = feature.properties.description || 'Описание отсутствует';
         document.getElementById('feedback').innerHTML = `<h3>${name}</h3><p>${desc}</p>`;
