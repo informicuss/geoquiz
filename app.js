@@ -8,10 +8,12 @@ let map = L.map('map', {
   maxZoom: 8
 }).setView([20, 0], 2);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+// L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
   attribution: '',
   noWrap: true
 }).addTo(map);
+
 
 let geojsonData;
 let allLayer;
