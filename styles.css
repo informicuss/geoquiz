@@ -118,6 +118,21 @@ html, body {
   height: 100%;
 }
 
+#objectList {
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.object-item:hover {
+  background: #f0f4ff;
+}
+
+.object-item.selected {
+  background-color: #dbeafe; /* голубая подсветка */
+  font-weight: 600;
+}
+
+
 /* Responsive design for mobile */
 @media (max-width: 768px) {
   #container {
@@ -146,5 +161,9 @@ html, body {
   #map {
     height: auto;
     grid-row: 2 / 3;
+  }
+
+  #objectList {
+    display: none;
   }
 }

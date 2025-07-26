@@ -22,6 +22,7 @@
       <div id="modeSwitch" class="control-group">
         <button class="mode-btn active" id="learnBtn" onclick="setMode('learn')">Обучение</button>
         <button class="mode-btn" id="quizBtn" onclick="setMode('quiz')">Квиз</button>
+        <button class="mode-btn" id="hardQuizBtn" onclick="setMode('hardQuiz')">Сложный квиз</button>
       </div>
 
       <div id="themeSelector" class="control-group">
@@ -31,6 +32,7 @@
 
       <div id="info" class="control-group">
         <div id="themeName" style="display:none">Загрузка...</div>
+        <div id="objectList" style="max-height: 200px; overflow-y: auto;"></div>
         <div id="question">Выберите тему и нажмите «Новый вопрос»</div>
         <div id="feedback"></div>
         <button id="nextBtn">Новый вопрос</button>
