@@ -24,6 +24,7 @@ let allLayer;
 let currentFeature;
 let currentMode = 'learn';
 let selectedListItem = null;
+let highlightMarker = null;
 
 // Список тем: название → файл
 const themes = {
@@ -241,14 +242,36 @@ function showFeatureOnMap(feature) {
   removeHighlightLayers();
   document.getElementById('question').textContent = '';
 
-  L.geoJSON(feature, {
-    style: {
+  const geomType = feature.geometry.type;
+
+  if (geomType === 'Point') {
+    const coords = feature.geometry.coordinates;
+    highlightMarker  = L.circleMarker([coords[1], coords[0]], {
+      radius: 8,
       color: 'green',
-      weight: 3,
-      fillOpacity: 0.4,
+      fillColor: 'green',
+      fillOpacity: 0.6,
       className: 'highlight-correct'
-    }
-  }).addTo(map);
+    }).addTo(map);
+
+    // Центрируемся на точке
+    map.setView([coords[1], coords[0]], 6); // масштаб можно подстроить    
+  } else {
+    const layer = L.geoJSON(feature, {
+      style: {
+        color: 'green',
+        weight: 3,
+        fillOpacity: 0.4,
+        className: 'highlight-correct'
+      }
+    }).addTo(map);
+
+    try {
+      map.fitBounds(layer.getBounds(), { padding: [20, 20] });
+    } catch (err) {
+      console.warn("Не удалось позиционироваться на объект:", err);
+    }    
+  }
 
   // Обновим левую панель
   const name = feature.properties.name;
@@ -312,8 +335,6 @@ function renderHardQuizMode() {
   allLayer = null;
 }
 
-
-
 function removeHighlightLayers() {
   map.eachLayer(layer => {
     if (layer.feature && layer.options && (
@@ -322,7 +343,13 @@ function removeHighlightLayers() {
       map.removeLayer(layer);
     }
   });
+
+  if (highlightMarker) {
+    map.removeLayer(highlightMarker);
+    highlightMarker = null;
+  }
 }
+
 
 // Global mode switch
 function setMode(mode) {
@@ -501,13 +528,6 @@ function checkAnswerOld(e, featureClicked = null) {
   }
 }
 
-function removeHighlightLayers() {
-  map.eachLayer(layer => {
-    if (layer.feature && layer.options && layer.options.color === 'green') {
-      map.removeLayer(layer);
-    }
-  });
-}
 
 // Load GeoJSON by topic
 function loadGeoJSONForTopic(topic) {
