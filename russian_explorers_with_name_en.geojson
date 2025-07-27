@@ -1,0 +1,257 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Балтийское море",
+        "description": "Через Балтику русские купцы налаживали связи с Западной Европой, открывая морские торговые пути.",
+        "name_en": "Baltic Sea"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Белое море",
+        "description": "Издавна освоено русскими поморами, именно здесь началась история освоения северных территорий России.",
+        "name_en": "White Sea"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Баренцево море",
+        "description": "Здесь расположен архипелаг Шпицберген, который длительное время использовался для международных научных исследований.",
+        "name_en": "Barents Sea"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Карское море",
+        "description": "Благодаря экспедициям русских ученых стало известным количество льда и особенности судоходства в Арктике.",
+        "name_en": "Kara Sea"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Море Лаптевых",
+        "description": "Названо в честь братьев Лаптевых, совершивших значительные открытия в исследовании побережья Сибири.",
+        "name_en": "Laptev Sea"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Восточно-Сибирское море",
+        "description": "Практически круглый год покрыто льдами, ставя перед исследователям уникальные проблемы навигации.",
+        "name_en": "East Siberian Sea"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Чукотское море",
+        "description": "Береговая линия этого моря заселена народом чукчей, сохраняющим традиционные занятия, такими как охота и оленеводство.",
+        "name_en": "Chukchi Sea"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Берингово море",
+        "description": "Получило свое название в честь известного мореплавателя Витуса Беринга, исследовавшего Северную Америку и Россию.",
+        "name_en": "Bering Sea"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Охотское море",
+        "description": "Имеет площадь, сопоставимую с размерами крупных европейских государств, таких как Франция и Германия.",
+        "name_en": "Sea of Okhotsk"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Берингов пролив",
+        "description": "Точка соприкосновения двух континентов — Азии и Америки, важный стратегический пункт мировой истории.",
+        "name_en": "Bering Strait"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Уральские горы",
+        "description": "Уральские горы являются естественной границей между Европой и Азией.",
+        "name_en": "Ural Mountains"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Мыс Дежнёва",
+        "description": "Восток Евразии получил своё название в честь знаменитого русского землепроходца Семена Дежнева, открывшего морской проход вокруг Сибири.",
+        "name_en": "Cape Dezhnev"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Мыс Челюскина",
+        "description": "Самый северный мыс России, знаменитый тем, что был конечной точкой множества исследовательских экспедиций.",
+        "name_en": "Cape Chelyuskin"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Река Обь",
+        "description": "Возникла путем слияния рек Бии и Катуни, образует огромную заболоченную дельту, одну из крупнейших в России.",
+        "name_en": "Ob"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Река Иртыш",
+        "description": "Официально признана притоком Оби, хотя фактически она значительно длиннее главной реки.",
+        "name_en": "Irtysh"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Река Енисей",
+        "description": "Третья по длине речная система России, важная транспортная магистраль для перевозки грузов.",
+        "name_en": "Yenisey"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Река Лена",
+        "description": "Символизирует дикую природу Восточной Сибири, являясь второй по длине рекой страны.",
+        "name_en": "Lena"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Река Амур",
+        "description": "По реке проходит часть границы России и Китая, китайцы именуют её 'Хэйлунцзян' ('Черная река дракона').",
+        "name_en": "Amur"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Остров Шпицберген",
+        "description": "Под юрисдикцией Норвегии, но Россия активно ведет хозяйственную деятельность на архипелаге благодаря международному соглашению.",
+        "name_en": "Spitsbergen"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Архипелаг Новая Земля",
+        "description": "Раньше служил местом советских атомных испытаний (именно здесь испытывали 'Царь-бомбу'!), теперь это охраняемый природный объект.",
+        "name_en": "Novaya Zemlya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Остров Сахалин",
+        "description": "Представляет собой самый большой российский остров, ранее известный под названием 'остров Карафуто'.",
+        "name_en": "Sakhalin"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Алеутские острова",
+        "description": "Алеуты сохранили уникальный уклад жизни, основанный на традициях охоты и сбора пищи.",
+        "name_en": "Aleutian Islands"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Командорские острова",
+        "description": "Открытые Берингом, стали прибежищем редких видов морских млекопитающих, таких как каланы и северные морские котики.",
+        "name_en": "Commander Islands"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Кольский полуостров",
+        "description": "Богат месторождениями ценных металлов, такими как никель и палладий.",
+        "name_en": "Kola"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Чукотский полуостров",
+        "description": "Крайняя восточная точка России, откуда начинается путешествие в сторону североамериканских земель.",
+        "name_en": "Chukchi Peninsula"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Полуостров Таймыр",
+        "description": "Запасы нефти и угля делают этот район важным объектом экономического развития.",
+        "name_en": "Taymyr Peninsula"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Полуостров Камчатка",
+        "description": "Привлекателен вулканическим ландшафтом и геотермальными источниками, представляющими интерес для науки и туризма.",
+        "name_en": "Kamchatka Peninsula"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Полуостров Аляска",
+        "description": "Проданный Россией Америке в 1867 году, изначально считался бесполезной землей, пока после продажи не были обнаружены залежи золота.",
+        "name_en": "Alaska Peninsula"
+      }
+    }
+  ]
+}

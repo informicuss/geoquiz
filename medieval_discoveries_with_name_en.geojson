@@ -1,0 +1,95 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Пиренейский полуостров",
+        "description": "Здесь столкнулись три мира: христианский, мусульманский и иудейский.",
+        "name_en": "Iberian Peninsula"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Скандинавский полуостров",
+        "description": "Отсюда викинги отправлялись покорять полмира на своих драккарах.",
+        "name_en": "Scandinavia"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Лабрадор",
+        "description": "'Земля батраков', открытая викингами за 500 лет до Колумба!",
+        "name_en": "Labrador"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Каспийское море",
+        "description": "Гигантское озеро, где сходились пути купцов по Великому шёлковому пути.",
+        "name_en": "Caspian Sea"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Чёрное море",
+        "description": "'Море гостеприимства', где генуэзцы построили сотни торговых факторий.",
+        "name_en": "Black Sea"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Фарерские острова",
+        "description": "'Овечьи острова' викингов, где и сегодня живут потомки суровых мореходов.",
+        "name_en": "Faroe Islands"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Исландия",
+        "description": "'Ледяная земля', где вулканы и гейзеры соседствуют с сагами о древних богах.",
+        "name_en": "Iceland"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Гренландия",
+        "description": "'Зелёная земля', которую Эрик Рыжий хитро назвал так, чтобы привлечь поселенцев.",
+        "name_en": "Greenland"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Ньюфаундленд",
+        "description": "Первая 'Америка', которую посетили викинги, но... благополучно забыли.",
+        "name_en": "Newfoundland"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Шри-Ланка",
+        "description": "'Слеза Индии', где арабские мореходы меняли стекло на драгоценные рубины.",
+        "name_en": "Sri Lanka"
+      }
+    }
+  ]
+}

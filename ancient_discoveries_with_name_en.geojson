@@ -1,0 +1,140 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Атлантический океан",
+        "description": "Финикийцы первыми осмелились выйти за 'Геркулесовы столбы', открыв путь в неизведанное.",
+        "name_en": "Atlantic Ocean"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Тихий океан",
+        "description": "Огромный и таинственный, он оставался 'невидимым' для европейцев, пока полинезийцы бороздили его на утлых каноэ.",
+        "name_en": "Pacific Ocean"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Индийский океан",
+        "description": "'Великое Зелёное море' древних египтян, где арабские купцы проложили первые торговые маршруты.",
+        "name_en": "Indian Ocean"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Африка",
+        "description": "Финикийцы по приказу фараона Нехо совершили невозможное – обогнули континент за 3 года!",
+        "name_en": "Africa"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Евразия",
+        "description": "Гигантский материк, где зародились все древнейшие цивилизации мира.",
+        "name_en": "Europe, Asia"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Красное море",
+        "description": "Узкая водная 'змея', связывавшая Египет с легендарной страной Пунт.",
+        "name_en": "Red Sea"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Средиземное море",
+        "description": "Настоящая 'колыбель цивилизаций', где плавали финикийцы, греки и римляне.",
+        "name_en": "Mediterranean Sea"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Аравийское море",
+        "description": "По его волнам корабли царя Соломона везли из Индии золото и драгоценные пряности.",
+        "name_en": "Arabian Sea"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Персидский залив",
+        "description": "Здесь шумеры строили первые города, а вавилоняне – висячие сады Семирамиды.",
+        "name_en": "Persian Gulf"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Бенгальский залив",
+        "description": "В его бурных водах тонули корабли, гружённые индийскими алмазами и шёлками.",
+        "name_en": "Bay of Bengal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Гибралтарский пролив",
+        "description": "Древние считали его краем света, а за ним – лишь пугающая бездна.",
+        "name_en": "Strait of Gibraltar"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Канарские острова",
+        "description": "Финикийцы называли их 'Островами блаженных', где якобы обитали духи предков.",
+        "name_en": "Canary Islands"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Аравийский полуостров",
+        "description": "Земля ладана и мирры, где зародилась арабская торговля.",
+        "name_en": "Arabian Peninsula"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Индостан",
+        "description": "Колыбель индийской цивилизации, где текли 'молочные реки' в кисельных берегах.",
+        "name_en": "Indian subcontinent"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Крит",
+        "description": "Остров-загадка, где лабиринт Минотавра скрывал тайны первой европейской цивилизации.",
+        "name_en": "Crete"
+      }
+    }
+  ]
+}
