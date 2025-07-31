@@ -59,15 +59,6 @@
       "type": "Feature",
       "geometry": null,
       "properties": {
-        "name": "Чукотское море",
-        "description": "Береговая линия этого моря заселена народом чукчей, сохраняющим традиционные занятия, такими как охота и оленеводство.",
-        "name_en": "Chukchi Sea"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": null,
-      "properties": {
         "name": "Берингово море",
         "description": "Получило свое название в честь известного мореплавателя Витуса Беринга, исследовавшего Северную Америку и Россию.",
         "name_en": "Bering Sea"
@@ -249,6 +240,15 @@
         "name_en": "Cape Dezhnev"
       }
     },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Чукотское море",
+        "description": "Береговая линия этого моря заселена народом чукчей, сохраняющим традиционные занятия, такими как охота и оленеводство.",
+        "name_en": "Chukchi Sea"
+      }
+    },    
     {
       "type": "Feature",
       "geometry": null,
