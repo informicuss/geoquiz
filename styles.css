@@ -103,6 +103,7 @@ html, body {
 
 #nextBtn {
   padding: 0.75rem;
+  margin-bottom: 1em;  
   border: none;
   border-radius: var(--radius);
   background: var(--accent);

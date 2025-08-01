@@ -24,7 +24,9 @@ let allLayer;
 let currentFeature;
 let currentMode = 'learn';
 let selectedListItem = null;
-let highlightMarker = null;
+// let highlightMarker = null;
+// let highlightPointer = null;
+// let highlightLayer = null;
 
 // Список тем: название → файл
 const themes = {
@@ -246,18 +248,19 @@ function showFeatureOnMap(feature) {
 
   if (geomType === 'Point') {
     const coords = feature.geometry.coordinates;
-    highlightMarker  = L.circleMarker([coords[1], coords[0]], {
+    L.circleMarker([coords[1], coords[0]], {
       radius: 8,
       color: 'green',
       fillColor: 'green',
       fillOpacity: 0.6,
-      className: 'highlight-correct'
+      className: 'highlight-correct',
+      interactive: false
     }).addTo(map);
 
     // Центрируемся на точке
     map.setView([coords[1], coords[0]], 6); // масштаб можно подстроить    
   } else {
-    const layer = L.geoJSON(feature, {
+    layer = L.geoJSON(feature, {
       style: {
         color: 'green',
         weight: 3,
@@ -337,18 +340,45 @@ function renderHardQuizMode() {
 
 function removeHighlightLayers() {
   map.eachLayer(layer => {
-    if (layer.feature && layer.options && (
+    if (layer.options && (
         layer.options.color === 'green' ||
         layer.options.className === 'highlight-correct')) {
       map.removeLayer(layer);
     }
   });
-
-  if (highlightMarker) {
-    map.removeLayer(highlightMarker);
-    highlightMarker = null;
-  }
 }
+
+// function removeHighlightLayers() {
+//   console.log('[removeHighlightLayers] Начало перебора слоёв...');
+//   map.eachLayer(layer => {
+//     const info = {
+//       layerType: layer.constructor.name,
+//       hasFeature: !!layer.feature,
+//       className: layer.options?.className || '',
+//       color: layer.options?.color || '',
+//       isHighlightLayer:
+//         (
+//           layer.options?.color === 'green' ||
+//           layer.options?.className === 'highlight-correct'
+//         ) 
+//         // ||
+//         // layer === highlightLayer ||
+//         // layer === highlightMarker ||
+//         // layer === highlightPointer
+//     };
+
+//     console.log('[removeHighlightLayers] Слой:', info);
+
+//     if (info.isHighlightLayer) {
+//       console.log('Удаляем слой');
+//       map.removeLayer(layer);
+//     }
+//   });
+
+//   highlightLayer = null;
+//   highlightMarker = null;
+//   highlightPointer = null;
+// }
 
 
 // Global mode switch
@@ -374,50 +404,96 @@ function setMode(mode) {
 
 window.setMode = setMode;
 
+// function checkAnswer(e, featureClicked = null) {
+//   if (currentMode !== 'quiz' && currentMode !== 'hardQuiz') return;
+//   if (!currentFeature || !currentFeature.geometry) return;
+
+//   const pt = map.latLngToLayerPoint(e.latlng);
+//   const geom = currentFeature.geometry;
+//   const threshold = 15; // пикселей
+
+//   let match = false;
+
+//   console.log(`[checkAnswer] Координата клика: ${e.latlng.lng}, ${e.latlng.lat}`);
+//   console.log(`[checkAnswer] Тип геометрии: ${geom.type}`);
+//   console.log('[checkAnswer] Название объекта:', currentFeature.properties.name);
+
+//   try {
+//     if (geom.type === 'Polygon' || geom.type === 'MultiPolygon') {
+//       // ✅ Для полигонов проверяем попадание в фигуру (центральная часть, а не край)
+//       const clickPoint = turf.point([e.latlng.lng, e.latlng.lat]);
+//       match = turf.booleanPointInPolygon(clickPoint, geom);
+
+//     } else if (geom.type === 'LineString' || geom.type === 'MultiLineString') {
+//       // ✅ для линий — как раньше: расстояние до сегмента
+//       const lines = geom.type === 'LineString' ? [geom.coordinates] : geom.coordinates;
+
+//       for (const coords of lines) {
+//         // 🛡️ Защита от некорректной структуры
+//         if (!Array.isArray(coords) || coords.length < 2 || !Array.isArray(coords[0])) {
+//           console.warn('[checkAnswer] Пропущен некорректный сегмент:', coords);
+//           continue;
+//         }        
+
+//         for (let i = 0; i < coords.length - 1; i++) {
+//           const a = map.latLngToLayerPoint(L.latLng(coords[i][1], coords[i][0]));
+//           const b = map.latLngToLayerPoint(L.latLng(coords[i + 1][1], coords[i + 1][0]));
+//           const dist = pointToSegmentDistance(pt, a, b);
+//           if (dist < threshold) {
+//             match = true;
+//             break;
+//           }
+//         }
+//         if (match) break;
+//       }
+
+//     } else if (geom.type === 'Point') {
+//       // ✅ для точек — по расстоянию в пикселях до центра
+//       const coords = geom.coordinates;
+//       const point = map.latLngToLayerPoint(L.latLng(coords[1], coords[0]));
+//       const dist = pt.distanceTo(point);
+//       match = dist < threshold;
+//     }
+
+//   } catch (err) {
+//     console.warn('[checkAnswer] Ошибка при анализе геометрии:', err);
+//   }
+
+//   const feedbackEl = document.getElementById('feedback');
+
+//   if (match) {
+//     answeredCorrectly = true;
+//     feedbackEl.textContent = '✅ Правильно! Название: ' + currentFeature.properties.name;
+
+//     highlightPointer = L.geoJSON(currentFeature, {
+//       style: {
+//         color: 'green',
+//         weight: 3,
+//         fillOpacity: 0.4,
+//         className: 'highlight-correct'
+//       }
+//     }).addTo(map);
+//   } else {
+//     removeHighlightLayers();
+//     feedbackEl.textContent = '❌ Неправильно. Попробуй ещё.';
+//   }
+// }
+
 function checkAnswer(e, featureClicked = null) {
   if (currentMode !== 'quiz' && currentMode !== 'hardQuiz') return;
   if (!currentFeature || !currentFeature.geometry) return;
 
   const pt = map.latLngToLayerPoint(e.latlng);
-  const geom = currentFeature.geometry;
+  const clickPoint = turf.point([e.latlng.lng, e.latlng.lat]);
   const threshold = 15; // пикселей
 
   let match = false;
 
   try {
-    if (geom.type === 'Polygon' || geom.type === 'MultiPolygon') {
-      const polygons = geom.type === 'Polygon' ? [geom.coordinates] : geom.coordinates;
+    const geom = currentFeature.geometry;
 
-      for (const poly of polygons) {
-        const ring = poly[0]; // Внешняя граница
-        for (let i = 0; i < ring.length - 1; i++) {
-          const a = map.latLngToLayerPoint(L.latLng(ring[i][1], ring[i][0]));
-          const b = map.latLngToLayerPoint(L.latLng(ring[i + 1][1], ring[i + 1][0]));
-          const dist = pointToSegmentDistance(pt, a, b);
-          if (dist < threshold) {
-            match = true;
-            break;
-          }
-        }
-        if (match) break;
-      }
+    match = checkGeometry(geom, pt, clickPoint, threshold);
 
-    } else if (geom.type === 'LineString' || geom.type === 'MultiLineString') {
-      const lines = geom.type === 'LineString' ? [geom.coordinates] : geom.coordinates;
-
-      for (const coords of lines) {
-        for (let i = 0; i < coords.length - 1; i++) {
-          const a = map.latLngToLayerPoint(L.latLng(coords[i][1], coords[i][0]));
-          const b = map.latLngToLayerPoint(L.latLng(coords[i + 1][1], coords[i + 1][0]));
-          const dist = pointToSegmentDistance(pt, a, b);
-          if (dist < threshold) {
-            match = true;
-            break;
-          }
-        }
-        if (match) break;
-      }
-    }
   } catch (err) {
     console.warn('[checkAnswer] Ошибка при анализе геометрии:', err);
   }
@@ -441,6 +517,51 @@ function checkAnswer(e, featureClicked = null) {
     feedbackEl.textContent = '❌ Неправильно. Попробуй ещё.';
   }
 }
+
+function checkGeometry(geom, pixelPoint, geoPoint, threshold) {
+  if (!geom || !geom.type) return false;
+
+  const type = geom.type;
+
+  if (type === 'GeometryCollection' && Array.isArray(geom.geometries)) {
+    for (const g of geom.geometries) {
+      if (checkGeometry(g, pixelPoint, geoPoint, threshold)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  if (type === 'Polygon' || type === 'MultiPolygon') {
+    return turf.booleanPointInPolygon(geoPoint, geom);
+  }
+
+  if (type === 'LineString' || type === 'MultiLineString') {
+    const lines = type === 'LineString' ? [geom.coordinates] : geom.coordinates;
+
+    for (const coords of lines) {
+      if (!Array.isArray(coords) || coords.length < 2 || !Array.isArray(coords[0])) continue;
+
+      for (let i = 0; i < coords.length - 1; i++) {
+        const a = map.latLngToLayerPoint(L.latLng(coords[i][1], coords[i][0]));
+        const b = map.latLngToLayerPoint(L.latLng(coords[i + 1][1], coords[i + 1][0]));
+        const dist = pointToSegmentDistance(pixelPoint, a, b);
+        if (dist < threshold) return true;
+      }
+    }
+    return false;
+  }
+
+  if (type === 'Point') {
+    const coords = geom.coordinates;
+    const markerPt = map.latLngToLayerPoint(L.latLng(coords[1], coords[0]));
+    const dist = pixelPoint.distanceTo(markerPt);
+    return dist < threshold;
+  }
+
+  return false;
+}
+
 
 
 function pointToSegmentDistance(p, a, b) {
@@ -459,73 +580,6 @@ function pointToSegmentDistance(p, a, b) {
   };
 
   return Math.hypot(p.x - proj.x, p.y - proj.y);
-}
-
-
-function checkAnswerOld(e, featureClicked = null) {
-  if (currentMode !== 'quiz' || !currentFeature) {
-    console.log('[checkAnswer] Отмена: не quiz или нет currentFeature');
-    return;
-  }
-
-  const pt = turf.point([e.latlng.lng, e.latlng.lat]);
-  const geom = currentFeature.geometry;
-
-  console.log(`[checkAnswer] Координата клика: ${e.latlng.lng}, ${e.latlng.lat}`);
-  console.log(`[checkAnswer] Тип геометрии: ${geom.type}`);
-  console.log('[checkAnswer] Название объекта:', currentFeature.properties.name);
-
-  let match = false;
-
-  try {
-    if (geom.type === 'Polygon' || geom.type === 'MultiPolygon') {
-      match = turf.booleanPointInPolygon(pt, geom);
-      console.log(`[checkAnswer] Результат booleanPointInPolygon: ${match}`);
-    } else if (geom.type === 'LineString') {
-  const line = turf.lineString(geom.coordinates);
-  const dist = turf.pointToLineDistance(pt, line, { units: 'kilometers' });
-  console.log(`[checkAnswer] Расстояние до линии: ${dist.toFixed(3)} км`);
-  match = dist < 2;
-  } else if (geom.type === 'MultiLineString') {
-    console.log('[checkAnswer] Обработка MultiLineString');
-    for (const lineCoords of geom.coordinates) {
-      const line = turf.lineString(lineCoords);
-      const dist = turf.pointToLineDistance(pt, line, { units: 'kilometers' });
-      console.log(`[checkAnswer] → Расстояние до одной из линий: ${dist.toFixed(3)} км`);
-      if (dist < 10) {
-        match = true;
-        break;
-      }
-    }
-  }
-  else {
-      console.log('[checkAnswer] Неизвестный тип геометрии');
-    }
-  } catch (err) {
-    console.warn('[checkAnswer] Ошибка при анализе геометрии:', err);
-  }
-
-  const feedbackEl = document.getElementById('feedback');
-
-  if (match) {
-    answeredCorrectly = true;
-    feedbackEl.textContent = '✅ Правильно! Название: ' + currentFeature.properties.name;
-
-    L.geoJSON(currentFeature, {
-      style: {
-        color: 'green',
-        weight: 3,
-        fillOpacity: 0.4,
-        className: 'highlight-correct'
-      }
-    }).addTo(map);
-
-    console.log('[checkAnswer] ✅ Ответ засчитан');
-  } else {
-    removeHighlightLayers();
-    feedbackEl.textContent = '❌ Неправильно. Попробуй ещё.';
-    console.log('[checkAnswer] ❌ Ответ не засчитан');
-  }
 }
 
 
