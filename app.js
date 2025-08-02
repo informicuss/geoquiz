@@ -253,8 +253,7 @@ function showFeatureOnMap(feature) {
       color: 'green',
       fillColor: 'green',
       fillOpacity: 0.6,
-      className: 'highlight-correct',
-      interactive: false
+      className: 'highlight-correct'
     }).addTo(map);
 
     // Центрируемся на точке
@@ -302,6 +301,15 @@ function renderQuizMode() {
       weight: 15,       // 👈 расширенная зона
       opacity: 0
     },
+    pointToLayer: function (feature, latlng) {
+      return L.circleMarker(latlng, {
+        radius: 15,
+        color: 'transparent',
+        fillOpacity: 0,
+        weight: 15,
+        interactive: true
+      });
+    },    
     interactive: true,  // 👈 обязательно для курсора "палец"
     onEachFeature: function (feature, layer) {
       layer.on('click', function (e) {
@@ -317,6 +325,15 @@ function renderQuizMode() {
       weight: 1,
       fillOpacity: 0.1
     },
+    pointToLayer: function (feature, latlng) {
+      return L.circleMarker(latlng, {
+        radius: 6,
+        color: '#999',
+        fillColor: '#999',
+        fillOpacity: 0.6,
+        interactive: false  // 🔒 чтобы не мешал клику
+      });
+    },    
     interactive: false
   });
 
@@ -347,39 +364,6 @@ function removeHighlightLayers() {
     }
   });
 }
-
-// function removeHighlightLayers() {
-//   console.log('[removeHighlightLayers] Начало перебора слоёв...');
-//   map.eachLayer(layer => {
-//     const info = {
-//       layerType: layer.constructor.name,
-//       hasFeature: !!layer.feature,
-//       className: layer.options?.className || '',
-//       color: layer.options?.color || '',
-//       isHighlightLayer:
-//         (
-//           layer.options?.color === 'green' ||
-//           layer.options?.className === 'highlight-correct'
-//         ) 
-//         // ||
-//         // layer === highlightLayer ||
-//         // layer === highlightMarker ||
-//         // layer === highlightPointer
-//     };
-
-//     console.log('[removeHighlightLayers] Слой:', info);
-
-//     if (info.isHighlightLayer) {
-//       console.log('Удаляем слой');
-//       map.removeLayer(layer);
-//     }
-//   });
-
-//   highlightLayer = null;
-//   highlightMarker = null;
-//   highlightPointer = null;
-// }
-
 
 // Global mode switch
 function setMode(mode) {
@@ -481,7 +465,11 @@ window.setMode = setMode;
 
 function checkAnswer(e, featureClicked = null) {
   if (currentMode !== 'quiz' && currentMode !== 'hardQuiz') return;
-  if (!currentFeature || !currentFeature.geometry) return;
+  
+  const feature = featureClicked || currentFeature;
+  if (!feature || !feature.geometry) return;
+
+  const geom = feature.geometry;
 
   const pt = map.latLngToLayerPoint(e.latlng);
   const clickPoint = turf.point([e.latlng.lng, e.latlng.lat]);
@@ -490,10 +478,7 @@ function checkAnswer(e, featureClicked = null) {
   let match = false;
 
   try {
-    const geom = currentFeature.geometry;
-
     match = checkGeometry(geom, pt, clickPoint, threshold);
-
   } catch (err) {
     console.warn('[checkAnswer] Ошибка при анализе геометрии:', err);
   }
@@ -504,12 +489,21 @@ function checkAnswer(e, featureClicked = null) {
     answeredCorrectly = true;
     feedbackEl.textContent = '✅ Правильно! Название: ' + currentFeature.properties.name;
 
-    L.geoJSON(currentFeature, {
+    L.geoJSON(feature, {
       style: {
         color: 'green',
         weight: 3,
         fillOpacity: 0.4,
         className: 'highlight-correct'
+      },
+      pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, {
+          radius: 8,
+          color: 'green',
+          fillColor: 'green',
+          fillOpacity: 0.6,
+          interactive: false
+        });
       }
     }).addTo(map);
   } else {
