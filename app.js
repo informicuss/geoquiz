@@ -18,15 +18,18 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png
   noWrap: true
 }).addTo(map);
 
-
 let geojsonData;
 let allLayer;
 let currentFeature;
 let currentMode = 'learn';
 let selectedListItem = null;
-// let highlightMarker = null;
-// let highlightPointer = null;
-// let highlightLayer = null;
+
+const DELAY_MS = 3000; // задержка перед следующим вопросом
+let quizQueue = [];
+let currentIndex = 0;
+let correctAnswers = 0;
+let mistakes = 0;
+let attemptCount = 0;
 
 // Список тем: название → файл
 const themes = {
@@ -35,6 +38,17 @@ const themes = {
   "Географические открытия Древности": "ancient_discoveries_with_geom.geojson",
   "Географические открытия Средневековья": "medieval_discoveries_with_geom.geojson"
 };
+
+
+function shuffleArray(array) {
+  const arr = array.slice(); // копия исходного массива
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 
 // Заполняем селектор тем и навешиваем обработчик
 function populateThemeSelector() {
@@ -121,6 +135,85 @@ function pickRandomFeature(features) {
   return features[Math.floor(Math.random() * features.length)];
 }
 
+function startQuiz() {
+  clearMap();
+  removeHighlightLayers();
+  toggleObjectList(false);
+
+  quizQueue = shuffleArray([...geojsonData.features]);
+  currentIndex = 0;
+  correctAnswers = 0;
+  mistakes = 0;
+  attemptCount = 0;
+
+  renderNextQuizQuestion();
+}
+
+function renderNextQuizQuestion() {
+  clearMap();
+  removeHighlightLayers();
+  document.getElementById('feedback').textContent = '';
+  nextBtn.style.display = 'none';
+  answeredCorrectly = false;
+  attemptCount = 0;
+
+  if (currentIndex >= quizQueue.length) {
+    document.getElementById('question').textContent =
+      `✅ Квиз завершён! Правильных: ${correctAnswers}, Ошибок: ${mistakes}`;
+    return;
+  }
+
+  currentFeature = quizQueue[currentIndex];
+  showQuestion(currentFeature);
+
+  if (currentMode === 'quiz') {
+    renderQuizLayer();
+  } else if (currentMode === 'hardQuiz') {
+    allLayer = null; // без отображения
+  }
+}
+
+function renderQuizLayer() {
+  const clickLayer = L.geoJSON(geojsonData, {
+    style: {
+      color: 'transparent',
+      weight: 15,
+      opacity: 0
+    },
+    pointToLayer: function (feature, latlng) {
+      return L.circleMarker(latlng, {
+        radius: 15,
+        color: 'transparent',
+        fillOpacity: 0,
+        weight: 15,
+        interactive: true
+      });
+    },
+    interactive: true,
+  });
+
+  const visualLayer = L.geoJSON(geojsonData, {
+    style: {
+      color: '#999',
+      weight: 1,
+      fillOpacity: 0.1
+    },
+    pointToLayer: function (feature, latlng) {
+      return L.circleMarker(latlng, {
+        radius: 6,
+        color: '#999',
+        fillColor: '#999',
+        fillOpacity: 0.6,
+        interactive: false
+      });
+    },
+    interactive: false
+  });
+
+  allLayer = L.layerGroup([clickLayer, visualLayer]).addTo(map);
+}
+
+
 function showQuestion(feature) {
   answeredCorrectly = false;
   const questionEl = document.getElementById('question');
@@ -133,6 +226,7 @@ function showQuestion(feature) {
 }
 
 function clearMap() {
+  document.getElementById('loading-overlay').style.display = 'none';
   if (allLayer) {
     allLayer.eachLayer(layer => map.removeLayer(layer));
     map.removeLayer(allLayer);
@@ -224,7 +318,7 @@ function renderObjectList(features) {
         }
         selectedListItem = div;
         selectedListItem.classList.add('selected');
-        showFeatureOnMap(feature);
+        showFeatureOnMap(feature, 'green', true, true);
       });
     }
 
@@ -240,119 +334,79 @@ function toggleObjectList(visible) {
 }
 
 
-function showFeatureOnMap(feature) {
+function showFeatureOnMap(feature, color, zoom, showDescription) {
   removeHighlightLayers();
   document.getElementById('question').textContent = '';
 
   const geomType = feature.geometry.type;
 
-  if (geomType === 'Point') {
-    const coords = feature.geometry.coordinates;
-    L.circleMarker([coords[1], coords[0]], {
-      radius: 8,
-      color: 'green',
-      fillColor: 'green',
-      fillOpacity: 0.6,
+  const layer = L.geoJSON(feature, {
+    style: {
+      color,
+      weight: 3,
+      fillOpacity: 0.4,
       className: 'highlight-correct'
-    }).addTo(map);
+    },
+    pointToLayer: (feature, latlng) =>
+      color === 'green'
+        ? L.circleMarker(latlng, { radius: 8, color: 'green' })
+        : L.circleMarker(latlng, { radius: 8, color: 'red' })
+  }).addTo(map);
 
-    // Центрируемся на точке
-    map.setView([coords[1], coords[0]], 6); // масштаб можно подстроить    
-  } else {
-    layer = L.geoJSON(feature, {
-      style: {
-        color: 'green',
-        weight: 3,
-        fillOpacity: 0.4,
-        className: 'highlight-correct'
-      }
-    }).addTo(map);
-
+  if (zoom) {
     try {
-      map.fitBounds(layer.getBounds(), { padding: [20, 20] });
+      const bounds = layer.getBounds();
+      if (bounds.isValid()) map.fitBounds(bounds, { maxZoom: 7 });
     } catch (err) {
-      console.warn("Не удалось позиционироваться на объект:", err);
-    }    
+      console.warn('[focusFeature] Ошибка при позиционировании:', err);
+    }
   }
 
-  // Обновим левую панель
-  const name = feature.properties.name;
-  const desc = feature.properties.description || 'Описание отсутствует';
-  document.getElementById('feedback').innerHTML = `<h3>${name}</h3><p>${desc}</p>`;
+  // if (geomType === 'Point') {
+  //   const coords = feature.geometry.coordinates;
+  //   L.circleMarker([coords[1], coords[0]], {
+  //     radius: 8,
+  //     color: 'green',
+  //     fillColor: 'green',
+  //     fillOpacity: 0.6,
+  //     className: 'highlight-correct'
+  //   }).addTo(map);
+
+  //   // Центрируемся на точке
+  //   map.setView([coords[1], coords[0]], 6); // масштаб можно подстроить    
+  // } else {
+  //   layer = L.geoJSON(feature, {
+  //     style: {
+  //       color: 'green',
+  //       weight: 3,
+  //       fillOpacity: 0.4,
+  //       className: 'highlight-correct'
+  //     }
+  //   }).addTo(map);
+
+  //   try {
+  //     map.fitBounds(layer.getBounds(), { padding: [20, 20] });
+  //   } catch (err) {
+  //     console.warn("Не удалось позиционироваться на объект:", err);
+  //   }    
+  // }
+
+  if (showDescription) {
+    // Обновим левую панель
+    const name = feature.properties.name;
+    const desc = feature.properties.description || 'Описание отсутствует';
+    document.getElementById('feedback').innerHTML = `<h3>${name}</h3><p>${desc}</p>`;
+  }
 }
 
-
 function renderQuizMode() {
-  clearMap();
-  removeHighlightLayers();
-  toggleObjectList(false);
-
-  answeredCorrectly = false;
-
-  currentFeature = pickRandomFeature(geojsonData.features);
-  showQuestion(currentFeature);
-  document.getElementById('feedback').textContent = '';
-  nextBtn.style.display = 'inline-block';
-
-  // 1. Слой для обработки кликов и курсора
-  const clickLayer = L.geoJSON(geojsonData, {
-    style: {
-      color: 'transparent',
-      weight: 15,       // 👈 расширенная зона
-      opacity: 0
-    },
-    pointToLayer: function (feature, latlng) {
-      return L.circleMarker(latlng, {
-        radius: 15,
-        color: 'transparent',
-        fillOpacity: 0,
-        weight: 15,
-        interactive: true
-      });
-    },    
-    interactive: true,  // 👈 обязательно для курсора "палец"
-    onEachFeature: function (feature, layer) {
-      layer.on('click', function (e) {
-        checkAnswer(e, feature);  // Передаём объект, по которому кликнули
-      });
-    }
-  });
-
-  // 2. Слой для визуализации — неинтерактивный
-  const visualLayer = L.geoJSON(geojsonData, {
-    style: {
-      color: '#999',
-      weight: 1,
-      fillOpacity: 0.1
-    },
-    pointToLayer: function (feature, latlng) {
-      return L.circleMarker(latlng, {
-        radius: 6,
-        color: '#999',
-        fillColor: '#999',
-        fillOpacity: 0.6,
-        interactive: false  // 🔒 чтобы не мешал клику
-      });
-    },    
-    interactive: false
-  });
-
-  // 3. Объединяем слои и добавляем на карту
-  allLayer = L.layerGroup([clickLayer, visualLayer]).addTo(map);
+  currentMode = 'quiz';
+  startQuiz();
 }
 
 function renderHardQuizMode() {
-  clearMap();
-  removeHighlightLayers();
-  answeredCorrectly = false;
-
-  currentFeature = pickRandomFeature(geojsonData.features);
-  showQuestion(currentFeature);
-  document.getElementById('feedback').textContent = '';
-  nextBtn.style.display = 'inline-block';
-
-  // Без отображения объектов вообще
-  allLayer = null;
+  currentMode = 'hardQuiz';
+  startQuiz();
 }
 
 function removeHighlightLayers() {
@@ -388,94 +442,18 @@ function setMode(mode) {
 
 window.setMode = setMode;
 
-// function checkAnswer(e, featureClicked = null) {
-//   if (currentMode !== 'quiz' && currentMode !== 'hardQuiz') return;
-//   if (!currentFeature || !currentFeature.geometry) return;
-
-//   const pt = map.latLngToLayerPoint(e.latlng);
-//   const geom = currentFeature.geometry;
-//   const threshold = 15; // пикселей
-
-//   let match = false;
-
-//   console.log(`[checkAnswer] Координата клика: ${e.latlng.lng}, ${e.latlng.lat}`);
-//   console.log(`[checkAnswer] Тип геометрии: ${geom.type}`);
-//   console.log('[checkAnswer] Название объекта:', currentFeature.properties.name);
-
-//   try {
-//     if (geom.type === 'Polygon' || geom.type === 'MultiPolygon') {
-//       // ✅ Для полигонов проверяем попадание в фигуру (центральная часть, а не край)
-//       const clickPoint = turf.point([e.latlng.lng, e.latlng.lat]);
-//       match = turf.booleanPointInPolygon(clickPoint, geom);
-
-//     } else if (geom.type === 'LineString' || geom.type === 'MultiLineString') {
-//       // ✅ для линий — как раньше: расстояние до сегмента
-//       const lines = geom.type === 'LineString' ? [geom.coordinates] : geom.coordinates;
-
-//       for (const coords of lines) {
-//         // 🛡️ Защита от некорректной структуры
-//         if (!Array.isArray(coords) || coords.length < 2 || !Array.isArray(coords[0])) {
-//           console.warn('[checkAnswer] Пропущен некорректный сегмент:', coords);
-//           continue;
-//         }        
-
-//         for (let i = 0; i < coords.length - 1; i++) {
-//           const a = map.latLngToLayerPoint(L.latLng(coords[i][1], coords[i][0]));
-//           const b = map.latLngToLayerPoint(L.latLng(coords[i + 1][1], coords[i + 1][0]));
-//           const dist = pointToSegmentDistance(pt, a, b);
-//           if (dist < threshold) {
-//             match = true;
-//             break;
-//           }
-//         }
-//         if (match) break;
-//       }
-
-//     } else if (geom.type === 'Point') {
-//       // ✅ для точек — по расстоянию в пикселях до центра
-//       const coords = geom.coordinates;
-//       const point = map.latLngToLayerPoint(L.latLng(coords[1], coords[0]));
-//       const dist = pt.distanceTo(point);
-//       match = dist < threshold;
-//     }
-
-//   } catch (err) {
-//     console.warn('[checkAnswer] Ошибка при анализе геометрии:', err);
-//   }
-
-//   const feedbackEl = document.getElementById('feedback');
-
-//   if (match) {
-//     answeredCorrectly = true;
-//     feedbackEl.textContent = '✅ Правильно! Название: ' + currentFeature.properties.name;
-
-//     highlightPointer = L.geoJSON(currentFeature, {
-//       style: {
-//         color: 'green',
-//         weight: 3,
-//         fillOpacity: 0.4,
-//         className: 'highlight-correct'
-//       }
-//     }).addTo(map);
-//   } else {
-//     removeHighlightLayers();
-//     feedbackEl.textContent = '❌ Неправильно. Попробуй ещё.';
-//   }
-// }
-
-function checkAnswer(e, featureClicked = null) {
+function checkAnswer(e) {
   if (currentMode !== 'quiz' && currentMode !== 'hardQuiz') return;
-  
-  const feature = featureClicked || currentFeature;
-  if (!feature || !feature.geometry) return;
 
-  const geom = feature.geometry;
+  if (!currentFeature || !currentFeature.geometry) return;
 
+  const feedbackEl = document.getElementById('feedback');
+  let match = false;
+
+  const geom = currentFeature.geometry;
   const pt = map.latLngToLayerPoint(e.latlng);
   const clickPoint = turf.point([e.latlng.lng, e.latlng.lat]);
-  const threshold = 15; // пикселей
-
-  let match = false;
+  const threshold = 15;
 
   try {
     match = checkGeometry(geom, pt, clickPoint, threshold);
@@ -483,32 +461,37 @@ function checkAnswer(e, featureClicked = null) {
     console.warn('[checkAnswer] Ошибка при анализе геометрии:', err);
   }
 
-  const feedbackEl = document.getElementById('feedback');
-
   if (match) {
     answeredCorrectly = true;
-    feedbackEl.textContent = '✅ Правильно! Название: ' + currentFeature.properties.name;
+    correctAnswers++;
+    feedbackEl.textContent = '✅ Правильно! ' + currentFeature.properties.name + '\nПереход к следующему вопросу...';
+    document.getElementById('loading-overlay').style.display = 'flex';
 
-    L.geoJSON(feature, {
-      style: {
-        color: 'green',
-        weight: 3,
-        fillOpacity: 0.4,
-        className: 'highlight-correct'
-      },
-      pointToLayer: function (feature, latlng) {
-        return L.circleMarker(latlng, {
-          radius: 8,
-          color: 'green',
-          fillColor: 'green',
-          fillOpacity: 0.6,
-          interactive: false
-        });
-      }
-    }).addTo(map);
+    showFeatureOnMap(currentFeature, 'green', false);
+
+    document.getElementById('loading-overlay').style.display = 'flex';
+    setTimeout(() => {
+      currentIndex++;
+      renderNextQuizQuestion();
+    }, DELAY_MS);
+
   } else {
+    mistakes++;
+    attemptCount++;
     removeHighlightLayers();
-    feedbackEl.textContent = '❌ Неправильно. Попробуй ещё.';
+
+    if (attemptCount >= 3) {
+      feedbackEl.textContent = `❌ Неверно. Правильный ответ: ${currentFeature.properties.name}` + '\nПереход к следующему вопросу...';
+      showFeatureOnMap(currentFeature, 'red', true);
+
+      document.getElementById('loading-overlay').style.display = 'flex';
+      setTimeout(() => {
+        currentIndex++;
+        renderNextQuizQuestion();
+      }, DELAY_MS);
+    } else {
+      feedbackEl.textContent = `❌ Неправильно. Осталось попыток: ${3 - attemptCount}`;
+    }
   }
 }
 
@@ -596,17 +579,6 @@ function loadGeoJSONForTopic(topic) {
     });
 }
 
-// Start quiz called from HTML
-window.startQuiz = function() {
-  const select = document.getElementById('topic-select');
-  const topic = select ? select.value : null;
-  if (!topic) {
-    alert('Пожалуйста, выберите тему.');
-    return;
-  }
-  loadGeoJSONForTopic(topic);
-};
-
 // Next question button
 document.getElementById('nextBtn').addEventListener('click', () => {
   removeHighlightLayers();
@@ -620,6 +592,6 @@ document.getElementById('nextBtn').addEventListener('click', () => {
 // Map click for answer checking
 map.on('click', function (e) {
   if (currentMode === 'quiz'|| currentMode === 'hardQuiz' ) {
-    checkAnswer(e, null);  // передаём null как "не попал никуда"
+    checkAnswer(e);  // передаём null как "не попал никуда"
   }
 });
