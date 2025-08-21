@@ -25,6 +25,7 @@ let currentMode = 'learn';
 let selectedListItem = null;
 
 const DELAY_MS = 3000; // задержка перед следующим вопросом
+const ZOOM_PAUSE_MS = 1500; // пауза после зума при ошибке перед переходом к следующему
 let quizQueue = [];
 let currentIndex = 0;
 let correctAnswers = 0;
@@ -169,7 +170,21 @@ function renderNextQuizQuestion() {
   if (currentMode === 'quiz') {
     renderQuizLayer();
   } else if (currentMode === 'hardQuiz') {
-    allLayer = null; // без отображения
+    // allLayer = null; // без отображения
+
+     // показываем только точки
+    const visualPointsLayer = L.geoJSON(geojsonData, {
+      style: {
+        color: '#999',
+        weight: 1,
+        fillOpacity: 0.1
+      },      
+      pointToLayer: (feature, latlng) => createVisualPointMarker(latlng),
+      filter: feature => feature.geometry && feature.geometry.type === 'Point',
+      interactive: false
+    });
+
+    allLayer = visualPointsLayer.addTo(map);
   }
 }
 
@@ -180,15 +195,7 @@ function renderQuizLayer() {
       weight: 15,
       opacity: 0
     },
-    pointToLayer: function (feature, latlng) {
-      return L.circleMarker(latlng, {
-        radius: 15,
-        color: 'transparent',
-        fillOpacity: 0,
-        weight: 15,
-        interactive: true
-      });
-    },
+    pointToLayer: (feature, latlng) => createVisualPointMarker(latlng),
     interactive: true,
   });
 
@@ -198,15 +205,7 @@ function renderQuizLayer() {
       weight: 1,
       fillOpacity: 0.1
     },
-    pointToLayer: function (feature, latlng) {
-      return L.circleMarker(latlng, {
-        radius: 6,
-        color: '#999',
-        fillColor: '#999',
-        fillOpacity: 0.6,
-        interactive: false
-      });
-    },
+    pointToLayer: (feature, latlng) => createVisualPointMarker(latlng),
     interactive: false
   });
 
@@ -333,6 +332,15 @@ function toggleObjectList(visible) {
   }
 }
 
+// Общая функция для рисования точек
+function createVisualPointMarker(latlng) {
+  return L.circleMarker(latlng, {
+    radius: 6,
+    color: '#999',
+    fillOpacity: 0,
+    interactive: false
+  });
+}
 
 function showFeatureOnMap(feature, color, zoom, showDescription) {
   removeHighlightLayers();
@@ -356,7 +364,7 @@ function showFeatureOnMap(feature, color, zoom, showDescription) {
   if (zoom) {
     try {
       const bounds = layer.getBounds();
-      if (bounds.isValid()) map.fitBounds(bounds, { maxZoom: 7 });
+      if (bounds.isValid()) map.fitBounds(bounds, { maxZoom: 4 });
     } catch (err) {
       console.warn('[focusFeature] Ошибка при позиционировании:', err);
     }
@@ -481,16 +489,22 @@ function checkAnswer(e) {
     removeHighlightLayers();
 
     if (attemptCount >= 3) {
-      feedbackEl.textContent = `❌ Неверно. Правильный ответ: ${currentFeature.properties.name}` + '\nПереход к следующему вопросу...';
+      // 1) показываем правильный ответ и зумимся к нему
+      feedbackEl.textContent = `❌ Неверно. Правильный ответ: ${currentFeature.properties.name}`;
       showFeatureOnMap(currentFeature, 'red', true);
 
-      document.getElementById('loading-overlay').style.display = 'flex';
+      // 2) ждём, пока пользователь увидит объект после зума
       setTimeout(() => {
-        currentIndex++;
-        renderNextQuizQuestion();
-      }, DELAY_MS);
-    } else {
-      feedbackEl.textContent = `❌ Неправильно. Осталось попыток: ${3 - attemptCount}`;
+        // 3) сообщаем о переходе и включаем оверлей
+        feedbackEl.textContent += '\nПереход к следующему вопросу...';
+        document.getElementById('loading-overlay').style.display = 'flex';
+
+        // 4) ещё короткая пауза — и следующий вопрос
+        setTimeout(() => {
+          currentIndex++;
+          renderNextQuizQuestion();
+        }, DELAY_MS);
+      }, ZOOM_PAUSE_MS);
     }
   }
 }
