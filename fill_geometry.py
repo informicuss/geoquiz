@@ -34,7 +34,8 @@ INPUT_FILES = [
     "ancient_discoveries_with_name_en.geojson",
     "medieval_discoveries_with_name_en.geojson",
     "research_internal_continents_with_name_en.geojson",
-    "russian_explorers_with_name_en.geojson"
+    "russian_explorers_with_name_en.geojson", 
+    "relief_with_name_en.geojson"
 ]
 
 # Поля, где может лежать название объекта в shapefiles

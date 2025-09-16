@@ -37,7 +37,8 @@ const themes = {
   "Исследования внутренних частей материков": "research_internal_continents_with_geom.geojson",
   "Русские путешественники": "russian_explorers_with_geom.geojson",
   "Географические открытия Древности": "ancient_discoveries_with_geom.geojson",
-  "Географические открытия Средневековья": "medieval_discoveries_with_geom.geojson"
+  "Географические открытия Средневековья": "medieval_discoveries_with_geom.geojson",
+  "Рельеф Земли": "relief_with_geom.geojson" 
 };
 
 
