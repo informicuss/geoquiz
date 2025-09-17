@@ -7,7 +7,7 @@
       "properties": {
         "name": "Атлантический океан",
         "description": "Финикийцы первыми осмелились выйти за 'Геркулесовы столбы', открыв путь в неизведанное.",
-        "name_en": "Atlantic Ocean"
+        "name_en": "Atlantic Ocean, Sargasso Sea, Gulf of Guinea"
       }
     },
     {
@@ -25,7 +25,7 @@
       "properties": {
         "name": "Индийский океан",
         "description": "'Великое Зелёное море' древних египтян, где арабские купцы проложили первые торговые маршруты.",
-        "name_en": "Indian Ocean"
+        "name_en": "Indian Ocean, Arabian Sea, Laccadive Sea, Bay of Bengal, Andaman Sea, Gulf of Aden, Gulf of Oman, Red Sea, Mozambique Channel"
       }
     },
     {
@@ -61,7 +61,7 @@
       "properties": {
         "name": "Средиземное море",
         "description": "Настоящая 'колыбель цивилизаций', где плавали финикийцы, греки и римляне.",
-        "name_en": "Mediterranean Sea"
+        "name_en": "Mediterranean Sea, Aegean Sea, Ionian Sea, Adriatic Sea, Tyrrhenian Sea, Ligurian Sea, Alboran Sea, Balearic Sea, Sea of Marmara, Sea of Crete"
       }
     },
     {

@@ -12,11 +12,74 @@ let map = L.map('map', {
   maxZoom: 8
 }).fitWorld().setView([0, 0], 2);
 
-// L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
-  attribution: '',
-  noWrap: true
+// Градусная сетка из leaflet-graticule (canvas overlay)
+L.latlngGraticule({
+  showLabel: true,
+  color: '#666',       // сделай светлее, например '#aaa' или '#ccc'
+  weight: 1,           // толщина линии
+  opacity: 0.4,        // прозрачность (0 = полностью прозрачный, 1 = непрозрачный)
+  zoomInterval: [
+    { start: 2, end: 3, interval: 30 },
+    { start: 4, end: 5, interval: 10 },
+    { start: 6, end: 7, interval: 5 },
+    { start: 8, end: 10, interval: 1 }
+  ]
 }).addTo(map);
+
+// L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
+// Разные подложки
+const baseLayers = {
+  "Carto Light (без подписей)": L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+    attribution: '©Carto, ©OSM',
+    subdomains: 'abcd',
+    noWrap: true
+  }),
+  "World Ocean Base": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '',
+    noWrap: true
+  }),  
+  "Esri World Hillshade": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles © Esri',
+    noWrap: true
+  }),
+  "Voyager":  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
+    attribution: '',
+    subdomains: 'abcd',
+    noWrap: true
+  }),  
+  "Esri Gray Canvas": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles © Esri',
+    noWrap: true
+  })
+};
+
+// По умолчанию — Carto Light
+baseLayers["Carto Light (без подписей)"].addTo(map);
+
+// Переключатель
+L.control.layers(baseLayers, null, { collapsed: false, position: 'bottomleft' }).addTo(map);
+
+function addManualGraticule(map, stepDeg = 10, paneName = undefined) {
+  const group = L.layerGroup([], { pane: paneName }).addTo(map);
+  const style = { color: '#666', weight: 1, opacity: 0.4, interactive: false, pane: paneName };
+
+  // меридианы
+  for (let lon = -180; lon <= 180; lon += stepDeg) {
+    const coords = [];
+    for (let lat = -85; lat <= 85; lat += 1) coords.push([lat, lon]);
+    L.polyline(coords, style).addTo(group);
+  }
+  // параллели
+  for (let lat = -80; lat <= 80; lat += stepDeg) {
+    const coords = [];
+    for (let lon = -180; lon <= 180; lon += 1) coords.push([lat, lon]);
+    L.polyline(coords, style).addTo(group);
+  }
+  return group;
+}
+
+
 
 let geojsonData;
 let allLayer;
