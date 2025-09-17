@@ -236,6 +236,10 @@ function clearMap() {
 
 function handleFeatureClick(feature, layer) {
   layer.on('click', () => {
+    // В обучении при клике по другому объекту — сбрасываем предыдущее зелёное выделение
+    if (currentMode === 'learn') {
+      removeHighlightLayers();
+    }    
     document.getElementById('question').textContent = '';
     const name = feature.properties.name;
     const desc = feature.properties.description || 'Описание отсутствует';
@@ -488,7 +492,13 @@ function checkAnswer(e) {
     mistakes++;
     attemptCount++;
     removeHighlightLayers();
-
+    
+    // мгновенный фидбэк в уже существующий #feedback
+    const remaining = Math.max(0, 3 - attemptCount);
+    if (attemptCount < 3) {
+      feedbackEl.textContent = `❌ Неверно. Осталось попыток: ${remaining}`;
+    }
+    
     if (attemptCount >= 3) {
       // 1) показываем правильный ответ и зумимся к нему
       feedbackEl.textContent = `❌ Неверно. Правильный ответ: ${currentFeature.properties.name}`;
