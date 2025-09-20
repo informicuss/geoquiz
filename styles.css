@@ -159,6 +159,19 @@ html, body {
   pointer-events: auto;
 }
 
+#abortBtn {
+  padding: 0.65rem;
+  border: none;
+  border-radius: var(--radius);
+  background: #ef4444; /* красная кнопка */
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+#abortBtn:hover { opacity: .9; }
+#progressText strong { font-weight: 700; }
+
 /* Responsive design for mobile */
 @media (max-width: 768px) {
   #container {

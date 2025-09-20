@@ -25,6 +25,11 @@
         <button class="mode-btn" id="hardQuizBtn" onclick="setMode('hardQuiz')">Проверка</button>
       </div>
 
+      <!-- Кнопка прерывания проверки (показывается только в режиме проверки) -->
+      <button id="abortBtn" style="display:none; margin-bottom: 0.5rem;">Прервать проверку</button>
+      <!-- Прогресс проверки -->
+      <div id="progressText" style="display:none; font-size: 0.95rem; color:#374151; margin-bottom: 0.75rem;"></div>
+
       <div id="themeSelector" class="control-group">
         <label for="themeSelect">Тема:</label>
         <select id="themeSelect"></select>

@@ -3,6 +3,10 @@
 // Определяем, это мобильное устройство?
 const isMobile = window.innerWidth <= 768;
 
+const modeSwitch = document.getElementById('modeSwitch');
+const abortBtn   = document.getElementById('abortBtn');
+const progressEl = document.getElementById('progressText');
+
 let map = L.map('map', {
   attributionControl: false,
   worldCopyJump: false,
@@ -86,6 +90,7 @@ let allLayer;
 let currentFeature;
 let currentMode = 'learn';
 let selectedListItem = null;
+let isQuizActive = false; // квиз активен/завершён
 
 const DELAY_MS = 3000; // задержка перед следующим вопросом
 const ZOOM_PAUSE_MS = 1500; // пауза после зума при ошибке перед переходом к следующему
@@ -94,6 +99,7 @@ let currentIndex = 0;
 let correctAnswers = 0;
 let mistakes = 0;
 let attemptCount = 0;
+let isRoundLocked = false; // блокируем клики до следующего вопроса
 
 // Список тем: название → файл
 const themes = {
@@ -113,6 +119,43 @@ function shuffleArray(array) {
   }
   return arr;
 }
+
+function showQuizControls(show) {
+  modeSwitch.style.display = show ? 'none' : 'block';
+  abortBtn.style.display   = show ? 'block' : 'none';
+  progressEl.style.display = show ? 'block' : 'none';
+}
+
+function updateProgress() {
+  if (!quizQueue) return;
+  const total = quizQueue.length;
+  const passed = Math.min(currentIndex, total);
+  const left = Math.max(0, total - passed);
+  progressEl.innerHTML = `Прогресс: <strong>${passed}</strong> из <strong>${total}</strong> <br /> Осталось: <strong>${left}</strong> <br /> Ошибок: <strong>${mistakes}</strong>`;
+}
+
+function abortQuiz() {
+  // вернуть исходное состояние
+  clearMap();
+  removeHighlightLayers();
+  currentFeature = null;
+  quizQueue = [];
+  currentIndex = 0;
+  correctAnswers = 0;
+  mistakes = 0;
+  attemptCount = 0;
+  document.getElementById('question').textContent = 'Выберите тему и нажмите «Новый вопрос»';
+  document.getElementById('feedback').textContent = '';
+  nextBtn.style.display = 'none';
+
+  // показать исходный блок режимов, скрыть элементы проверки
+  showQuizControls(false);
+
+  // вернуть режим «Обучение»
+  setMode('learn');
+}
+
+abortBtn.addEventListener('click', abortQuiz);
 
 
 // Заполняем селектор тем и навешиваем обработчик
@@ -210,8 +253,11 @@ function startQuiz() {
   correctAnswers = 0;
   mistakes = 0;
   attemptCount = 0;
+  isQuizActive = true;
+  isRoundLocked = false;
 
   renderNextQuizQuestion();
+  updateProgress();
 }
 
 function renderNextQuizQuestion() {
@@ -221,11 +267,30 @@ function renderNextQuizQuestion() {
   nextBtn.style.display = 'none';
   answeredCorrectly = false;
   attemptCount = 0;
+  isRoundLocked = false; // на новый вопрос разблокируем
+
+  updateProgress();
 
   if (currentIndex >= quizQueue.length) {
-    document.getElementById('question').textContent =
-      `✅ Квиз завершён! Правильных: ${correctAnswers}, Ошибок: ${mistakes}`;
-    return;
+    // 👉 завершаем квиз: вырубаем обработку кликов и чистим цель
+   isQuizActive = false;
+   currentFeature = null;
+   clearMap();
+   removeHighlightLayers();
+   document.getElementById('question').textContent =
+     `✅ Квиз завершён! Правильных: ${correctAnswers}, Ошибок: ${mistakes}`;
+
+   showQuizControls(false);
+
+   document.getElementById('feedback').textContent = '';
+   // Покажем кнопку для повтора
+   nextBtn.style.display = 'block';
+   nextBtn.textContent = 'Начать заново';
+   nextBtn.onclick = () => {
+    if (currentMode === 'quiz') renderQuizMode();
+      else if (currentMode === 'hardQuiz') renderHardQuizMode();
+   };
+   return;
   }
 
   currentFeature = quizQueue[currentIndex];
@@ -477,11 +542,13 @@ function showFeatureOnMap(feature, color, zoom, showDescription) {
 
 function renderQuizMode() {
   currentMode = 'quiz';
+  showQuizControls(true);
   startQuiz();
 }
 
 function renderHardQuizMode() {
   currentMode = 'hardQuiz';
+  showQuizControls(true);
   startQuiz();
 }
 
@@ -504,6 +571,8 @@ function setMode(mode) {
   learnBtn.classList.toggle('active', mode === 'learn');
   quizBtn.classList.toggle('active', mode === 'quiz');
   hardBtn.classList.toggle('active', mode === 'hardQuiz');
+  isQuizActive = false;  // при смене режима выключаем текущий квиз
+  isRoundLocked = false; // при смене режима снимаем блокировку
 
   if (mode === 'learn') {
     renderLearnMode();
@@ -519,6 +588,8 @@ function setMode(mode) {
 window.setMode = setMode;
 
 function checkAnswer(e) {
+  if (isRoundLocked) return; // игнор любых кликов, если раунд заблокирован
+ 
   if (currentMode !== 'quiz' && currentMode !== 'hardQuiz') return;
 
   if (!currentFeature || !currentFeature.geometry) return;
@@ -540,6 +611,7 @@ function checkAnswer(e) {
   if (match) {
     answeredCorrectly = true;
     correctAnswers++;
+    isRoundLocked = true; // до следующего вопроса клики игнорируются
     feedbackEl.textContent = '✅ Правильно! ' + currentFeature.properties.name + '\nПереход к следующему вопросу...';
     document.getElementById('loading-overlay').style.display = 'flex';
 
@@ -555,6 +627,7 @@ function checkAnswer(e) {
     mistakes++;
     attemptCount++;
     removeHighlightLayers();
+    updateProgress();
     
     // мгновенный фидбэк в уже существующий #feedback
     const remaining = Math.max(0, 3 - attemptCount);
@@ -563,6 +636,7 @@ function checkAnswer(e) {
     }
     
     if (attemptCount >= 3) {
+      isRoundLocked = true; // до следующего вопроса клики игнорируются
       // 1) показываем правильный ответ и зумимся к нему
       feedbackEl.textContent = `❌ Неверно. Правильный ответ: ${currentFeature.properties.name}`;
       showFeatureOnMap(currentFeature, 'red', true);
@@ -679,6 +753,7 @@ document.getElementById('nextBtn').addEventListener('click', () => {
 
 // Map click for answer checking
 map.on('click', function (e) {
+  if (!isQuizActive) return;
   if (currentMode === 'quiz'|| currentMode === 'hardQuiz' ) {
     checkAnswer(e);  // передаём null как "не попал никуда"
   }
