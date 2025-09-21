@@ -1,0 +1,113 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Уральские горы",
+        "name_en": "Ural Mountains",
+        "description": "Граница между Европой и Азией; богатые месторождения полезных ископаемых."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Кавказские горы",
+        "name_en": "Caucasus Mountains",
+        "description": "Здесь находится Эльбрус — самая высокая вершина Европы (5642 м)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Скандинавские горы",
+        "name_en": "Scandinavian Mountains",
+        "description": "Старые горы, сформированные более 400 млн лет назад во время каледонской складчатости."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Альпы",
+        "name_en": "Alps",
+        "description": "Знамениты как крупнейшая горная система Европы и центр альпинизма и зимних видов спорта."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Пиренеи",
+        "name_en": "Pyrenees",
+        "description": "Природная граница между Францией и Испанией, где сохранились дикие виды животных."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Аппалачи",
+        "name_en": "Appalachian Mountains",
+        "description": "Древняя горная система Северной Америки, известная богатой флорой и фауной."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Кордильеры",
+        "name_en": "Rocky Mountains, Sierra Nevada, Cascade Range, Coast Mountains, Alaska Range, Brooks Range, Columbia Mountains, Mackenzie Mountains, Sierra Madre Occidental, Sierra Madre Oriental",
+        "description": "Огромная горная система Америки, включающая Скалистые горы и Анды."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Анды",
+        "name_en": "Andes",
+        "description": "Самая протяжённая горная система мира; здесь расположен действующий вулкан Льюльяйльяко (6739 м)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Гималаи",
+        "name_en": "Himalayas",
+        "description": "Здесь находится Эверест — высочайшая вершина планеты (8848 м)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Тянь-Шань",
+        "name_en": "Tian Shan",
+        "description": "Название переводится как «Небесные горы»; пик Победы достигает 7439 м."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Атласские горы",
+        "name_en": "Atlas Mountains",
+        "description": "Протянулись по северо-западу Африки; богаты месторождениями фосфоритов."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Большой Водораздельный хребет",
+        "name_en": "Great Dividing Range",
+        "description": "Главная горная система Австралии, влияющая на климат восточного побережья."
+      }
+    }
+  ]
+}

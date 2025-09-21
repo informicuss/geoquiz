@@ -26,16 +26,19 @@ SHAPEFILES = [
     "ne_50m_geography_regions_polys.shp",
     "ne_50m_admin_1_states_provinces.shp",
     "GMBA_Inventory_v2.0_standard_300.shp",
-    "ne_10m_geography_regions_polys.shp"
+    "ne_10m_geography_regions_polys.shp",
+    "Smithsonian_VOTW_Holocene_VolcanoesPoint.shp"
  ]
 
 # Входные GeoJSON-файлы (с уже заполненным name_en)
 INPUT_FILES = [
-    "ancient_discoveries_with_name_en.geojson",
-    "medieval_discoveries_with_name_en.geojson",
-    "research_internal_continents_with_name_en.geojson",
-    "russian_explorers_with_name_en.geojson", 
-    "relief_with_name_en.geojson"
+    # "ancient_discoveries_with_name_en.geojson",
+    # "medieval_discoveries_with_name_en.geojson",
+    # "research_internal_continents_with_name_en.geojson",
+    # "russian_explorers_with_name_en.geojson", 
+    # "relief_with_name_en.geojson",
+    "mountains_with_name_en.geojson",
+    "volcanoes_with_name_en.geojson"
 ]
 
 # Поля, где может лежать название объекта в shapefiles
@@ -46,6 +49,7 @@ NAME_FIELDS = [
     "GEONAME",
     "CONTINENT",
     "SUBREGION",
+    "Volcano_Na"
 ]
 
 def build_geometry_index():
@@ -66,7 +70,7 @@ def build_geometry_index():
         for feat in layer:
             props = feat.items()
             name_en = None
-            for fld in ["NAME_EN", "Name_EN", "name_en",  "NAME", "Name", "name", "NAME_LONG", "GEONAME"]:
+            for fld in ["NAME_EN", "Name_EN", "name_en",  "NAME", "Name", "name", "NAME_LONG", "GEONAME", "Volcano_Na"]:
                 if fld in props and props[fld]:
                     name_en = props[fld].strip()
                     break

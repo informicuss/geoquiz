@@ -1,0 +1,225 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Льюльяйльяко",
+        "name_en": "Llullaillaco",
+        "status": "active",
+        "description": "Действующий вулкан в Андах на границе Чили и Аргентины; один из самых высоких действующих вулканов мира (6739 м)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Ключевская Сопка",
+        "name_en": "Klyuchevskoy",
+        "status": "active",
+        "description": "Действующий вулкан на Камчатке; самая высокая гора Сибири (4750 м)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Везувий",
+        "name_en": "Vesuvius",
+        "status": "active",
+        "description": "Действующий вулкан в Италии; знаменит извержением 79 года, погребшим Помпеи и Геркуланум."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Килауэа",
+        "name_en": "Kilauea",
+        "status": "active",
+        "description": "Действующий вулкан на Гавайях; одно из самых активных мест извержений на Земле."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Мауна-Лоа",
+        "name_en": "Mauna Loa",
+        "status": "active",
+        "description": "Действующий вулкан на Гавайях; крупнейший вулкан планеты по объёму."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Стромболи",
+        "name_en": "Stromboli",
+        "status": "active",
+        "description": "Действующий вулкан на острове в Тирренском море; известен регулярными извержениями."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Этна",
+        "name_en": "Etna",
+        "status": "active",
+        "description": "Действующий вулкан на Сицилии; самый высокий вулкан Европы (3340 м)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          138.727,
+          35.360
+        ]
+      },
+      "properties": {
+        "name": "Фудзияма",
+        "name_en": "Fuji",
+        "status": "active",
+        "description": "Действующий вулкан в Японии; священная гора и символ страны."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Гекла",
+        "name_en": "Hekla",
+        "status": "active",
+        "description": "Действующий вулкан в Исландии; в Средние века его называли «воротами в ад»."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Катмай",
+        "name_en": "Katmai",
+        "status": "active",
+        "description": "Действующий вулкан на Аляске; известен извержением 1912 года и образованием Долины десяти тысяч дымков."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.269,
+          19.030
+        ]
+      },
+      "properties": {
+        "name": "Орисаба",
+        "name_en": "Citlaltépetl",
+        "status": "active",
+        "description": "Действующий вулкан в Мексике; самая высокая вершина страны (5636 м)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Котопахи",
+        "name_en": "Cotopaxi",
+        "status": "active",
+        "description": "Действующий вулкан в Эквадоре; один из самых высоких действующих вулканов мира (5897 м)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Кракатау",
+        "name_en": "Krakatau",
+        "status": "active",
+        "description": "Действующий вулкан в Индонезии; катастрофическое извержение 1883 года вызвало цунами и изменило климат."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Эльбрус",
+        "name_en": "Elbrus",
+        "status": "extinct",
+        "description": "Потухший вулкан на Кавказе; высшая точка Европы (5642 м)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Казбек",
+        "name_en": "Kazbek",
+        "status": "extinct",
+        "description": "Потухший вулкан на Кавказе; окружён ледниками и связан с грузинскими легендами."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.011,
+          -32.653
+        ]
+      },
+      "properties": {
+        "name": "Аконкагуа",
+        "name_en": "Aconcagua",
+        "status": "extinct",
+        "description": "Потухший вулкан в Андах; самая высокая гора Южной Америки (6961 м)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.769,
+          -33.377
+        ]
+      },
+      "properties": {
+        "name": "Тупунгато",
+        "name_en": "Tupungato",
+        "status": "extinct",
+        "description": "Потухший вулкан в Аргентине; высота 6570 м, иногда относят к стратовулканам."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "name": "Чимборасо",
+        "name_en": "Chimborazo",
+        "status": "extinct",
+        "description": "Потухший вулкан в Эквадоре; вершина наиболее удалена от центра Земли."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.355,
+          -3.067
+        ]
+      },
+      "properties": {
+        "name": "Килиманджаро",
+        "name_en": "Kilimanjaro",
+        "status": "extinct",
+        "description": "Потухший вулкан в Танзании; самая высокая гора Африки (5895 м)."
+      }
+    }
+  ]
+}
