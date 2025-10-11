@@ -32622,7 +32622,8 @@
       "properties": {
         "name": "Река Обь",
         "description": "Возникла путем слияния рек Бии и Катуни, образует огромную заболоченную дельту, одну из крупнейших в России.",
-        "name_en": "Ob"
+        "name_en": "Ob",
+        "hard_enabled": true
       }
     },
     {
@@ -39575,7 +39576,8 @@
       "properties": {
         "name": "Река Иртыш",
         "description": "Официально признана притоком Оби, хотя фактически она значительно длиннее главной реки.",
-        "name_en": "Irtysh"
+        "name_en": "Irtysh",
+        "hard_enabled": true
       }
     },
     {
@@ -44090,7 +44092,8 @@
       "properties": {
         "name": "Река Енисей",
         "description": "Третья по длине речная система России, важная транспортная магистраль для перевозки грузов.",
-        "name_en": "Yenisey, Krasnoyarsk"
+        "name_en": "Yenisey, Krasnoyarsk",
+        "hard_enabled": true
       }
     },
     {
@@ -48427,7 +48430,8 @@
       "properties": {
         "name": "Река Лена",
         "description": "Символизирует дикую природу Восточной Сибири, являясь второй по длине рекой страны.",
-        "name_en": "Lena"
+        "name_en": "Lena",
+        "hard_enabled": true
       }
     },
     {
@@ -52284,7 +52288,8 @@
       "properties": {
         "name": "Река Амур",
         "description": "По реке проходит часть границы России и Китая, китайцы именуют её 'Хэйлунцзян' ('Черная река дракона').",
-        "name_en": "Amur"
+        "name_en": "Amur",
+        "hard_enabled": true
       }
     },
     {

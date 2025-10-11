@@ -316,6 +316,17 @@ function renderNextQuizQuestion() {
     });
 
     allLayer = visualPointsLayer.addTo(map);
+
+    //TODO проверить что реки будут добавляться...
+    // ДОБАВКА: слой с объектами, помеченными hard_enabled === true (хотим показывать и на сложной проверке...)
+    const hardEnabledLayer = L.geoJSON(geojsonData, {
+      style: (feature) => ({ color: '#999', weight: 2, fillOpacity: 0.1 }),
+      pointToLayer: (feature, latlng) => createVisualPointMarker(latlng),
+      filter: (feature) => !!(feature?.geometry && feature?.properties?.hard_enabled === true),
+      interactive: false
+    });
+
+    allLayer = hardEnabledLayer.addTo(map);
   }
 }
 
