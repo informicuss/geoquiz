@@ -14,6 +14,8 @@ ogr2ogr -f CSV ne_10m_geography_regions_polys.csv ne_10m_geography_regions_polys
 ogrinfo -so ne_10m_populated_places_simple.shp ne_10m_populated_places_simple
 ogr2ogr -f CSV ne_10m_populated_places_simple.csv ne_10m_populated_places_simple.shp -select name,name_en,name_ru
 
+Поиск по шейпфайлу по части названия, чтобы догадаться, как называется на английском...
+ogrinfo ne_10m_geography_marine_polys.shp -dialect SQLITE -sql "SELECT name, name_en FROM ne_10m_geography_marine_polys WHERE LOWER(name) LIKE LOWER('%%татар%%') OR LOWER(name_en) LIKE LOWER('%%tar%%')"
 
 
 Назначение	Подходит файл
