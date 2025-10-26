@@ -247,12 +247,23 @@ function pickRandomFeature(features) {
   return features[Math.floor(Math.random() * features.length)];
 }
 
+// Return only features that have valid geometry
+function getFeaturesWithGeometry() {
+  if (!geojsonData || !geojsonData.features) return [];
+  return geojsonData.features.filter(f => f && f.geometry && typeof f.geometry.type === 'string');
+}
+
 function startQuiz() {
   clearMap();
   removeHighlightLayers();
   toggleObjectList(false);
 
-  quizQueue = shuffleArray([...geojsonData.features]);
+  const valid = getFeaturesWithGeometry();
+  if (valid.length === 0) {
+    document.getElementById('question').textContent = 'В этом наборе нет объектов с геометрией — переключите тему или добавьте геометрию.';
+    return;
+  }
+  quizQueue = shuffleArray([...valid]);
   currentIndex = 0;
   correctAnswers = 0;
   mistakes = 0;
