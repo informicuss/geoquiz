@@ -2661,6 +2661,127 @@
       },
       "geometry": null
     },
+        {
+      "type": "Feature",
+      "properties": {
+        "name": "Новая Земля",
+        "name_en": "Novaya Zemlya",
+        "group": "Острова",
+        "subgroup": "Арктика",
+        "description": "Двухостровной арктический архипелаг между Баренцевым и Карским морями."
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Северная Земля (о-ва Октябрьской Революции, Большевик и др.)",
+        "name_en": "Severnaya Zemlya",
+        "group": "Острова",
+        "subgroup": "Арктика",
+        "description": "Архипелаг в Карском море; включает о-ва Октябрьской Революции, Большевик, Комсомолец, Пионер."
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Земля Франца-Иосифа",
+        "name_en": "Franz Josef Land",
+        "group": "Острова",
+        "subgroup": "Арктика",
+        "description": "Крайний северо-восточный архипелаг Баренцева моря; более 190 островов."
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Новосибирские острова (Котельный, Новая Сибирь, Ляховские и др.)",
+        "name_en": "New Siberian Islands",
+        "group": "Острова",
+        "subgroup": "Арктика",
+        "description": "Крупный арктический архипелаг между морями Лаптевых и Восточно-Сибирским; включает Котельный, Новую Сибирь, Ляховские."
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Остров Врангеля",
+        "name_en": "Wrangel Island",
+        "group": "Острова",
+        "subgroup": "Арктика",
+        "description": "Остров в Чукотском море между Чукоткой и Аляской; объект ЮНЕСКО."
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Командорские острова (о. Беринга, о. Медный)",
+        "name_en": "Commander Islands",
+        "group": "Острова",
+        "subgroup": "Тихий океан",
+        "description": "Острова у восточного берега Камчатки (Беринга, Медный); часть Алеутской дуги."
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Кольский полуостров",
+        "name_en": "Kola",
+        "group": "Полуострова",
+        "subgroup": "Северо-Запад / Арктика",
+        "description": "Полуостров на северо-западе России между Баренцевым и Белым морями."
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Полуостров Канин",
+        "name_en": "Kanin Peninsula",
+        "group": "Полуострова",
+        "subgroup": "Арктика",
+        "description": "Полуостров между Баренцевым и Белым морями к востоку от Мезенского залива."
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Полуостров Ямал",
+        "name_en": "Yamal Peninsula",
+        "group": "Полуострова",
+        "subgroup": "Арктика",
+        "description": "Крупный полуостров между Карским морем и Обской губой; значимые месторождения газа."
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Гыданский полуостров",
+        "name_en": "Gyda Peninsula",
+        "group": "Полуострова",
+        "subgroup": "Арктика",
+        "description": "Полуостров восточнее Ямала, между Тазовской и Обской губами и Карским морем."
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Чукотский полуостров",
+        "name_en": "Chukchi Peninsula",
+        "group": "Полуострова",
+        "subgroup": "Дальний Восток / Арктика",
+        "description": "Восточный край материка Евразия; омывается Чукотским и Беринговым морями."
+      },
+      "geometry": null
+    },
     {
       "type": "Feature",
       "properties": {
