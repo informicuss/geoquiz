@@ -40,7 +40,8 @@ INPUT_FILES = [
     # "mountains_with_name_en.geojson",
     # "volcanoes_with_name_en.geojson",
     # "world_ocean_with_name_en.geojson",
-    "hydrosphere_with_name_en.geojson"
+    # "hydrosphere_with_name_en.geojson",
+    "rivers_with_name_en.geojson"
 ]
 
 # Поля, где может лежать название объекта в shapefiles

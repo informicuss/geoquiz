@@ -111,7 +111,8 @@ const themes = {
   "Горы": "mountains_with_geom.geojson",
   "Вулканы": "volcanoes_with_geom.geojson",
   "Мировой океан":"world_ocean_with_geom.geojson",
-  "Гидросфера":"hydrosphere_with_geom.geojson"
+  "Гидросфера":"hydrosphere_with_geom.geojson",
+  "Крупнейшие реки России":"rivers_with_geom.geojson"
 };
 
 

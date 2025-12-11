@@ -17,6 +17,17 @@ ogr2ogr -f CSV ne_10m_populated_places_simple.csv ne_10m_populated_places_simple
 Поиск по шейпфайлу по части названия, чтобы догадаться, как называется на английском...
 ogrinfo ne_10m_geography_marine_polys.shp -dialect SQLITE -sql "SELECT name, name_en FROM ne_10m_geography_marine_polys WHERE LOWER(name) LIKE LOWER('%%татар%%') OR LOWER(name_en) LIKE LOWER('%%tar%%')"
 
+ogrinfo ne_10m_rivers_lake_centerlines.shp -dialect SQLITE -sql "SELECT name, name_en FROM ne_10m_rivers_lake_centerlines WHERE LOWER(name_en) LIKE LOWER('%%Neva%%')"
+ogrinfo ne_10m_lakes.shp -dialect SQLITE -sql "SELECT name, name_en FROM ne_10m_lakes WHERE LOWER(name_en) LIKE LOWER('%%Neva%%')"
+ogrinfo ne_10m_geography_marine_polys.shp -dialect SQLITE -sql "SELECT name, name_en FROM ne_10m_geography_marine_polys WHERE LOWER(name_en) LIKE LOWER('%%Neva%%')"
+ogrinfo ne_10m_geography_marine_polys.shp -dialect SQLITE -sql "SELECT name, name_en FROM ne_10m_geography_marine_polys WHERE LOWER(name_en) LIKE LOWER('%%Neva%%')"
+ogrinfo ne_50m_admin_1_states_provinces.shp -dialect SQLITE -sql "SELECT name, name_en FROM ne_50m_admin_1_states_provinces WHERE LOWER(name_en) LIKE LOWER('%%Neva%%')"
+ogrinfo GMBA_Inventory_v2.0_standard_300.shp -dialect SQLITE -sql "SELECT name, name_en FROM GMBA_Inventory_v2.0_standard_300 WHERE LOWER(name_en) LIKE LOWER('%%Neva%%')"
+ogrinfo ne_10m_geography_regions_polys.shp -dialect SQLITE -sql "SELECT name, name_en FROM ne_10m_geography_regions_polys WHERE LOWER(name_en) LIKE LOWER('%%Neva%%')"
+ogrinfo Smithsonian_VOTW_Holocene_VolcanoesPoint.shp -dialect SQLITE -sql "SELECT name, name_en FROM Smithsonian_VOTW_Holocene_VolcanoesPoint WHERE LOWER(name_en) LIKE LOWER('%%Neva%%')"
+
+
+
 
 Назначение	Подходит файл
 Материки	ne_10m_geography_regions_polys.shp
@@ -39,14 +50,3 @@ ne_10m_admin_0_countries.shp
 включает островные государства (Сейшелы, Фиджи, Тувалу и пр.)
 
 содержит имена и коды
-
-
-не найденное на момент 27.07
-[Warning] Missing geometry for: ['Atlantic Ocean', 'Crete', 'Eurasia', 'Pacific Ocean']
-[Info] Written: ancient_discoveries_with_geom.geojson
-[Warning] Missing geometry for: ['Faroe Islands', 'Labrador Peninsula', 'Scandinavian Peninsula']
-[Info] Written: medieval_discoveries_with_geom.geojson
-[Warning] Missing geometry for: ['Lake Lop Nur', 'Victoria Falls']
-[Info] Written: research_internal_continents_with_geom.geojson
-[Warning] Missing geometry for: ['Bering Strait', 'Cape Dezhnev', 'Commander Islands', 'Kola Peninsula', 'Spitsbergen']
-[Info] Written: russian_explorers_with_geom.geojson
