@@ -24,9 +24,9 @@ SHAPEFILES = [
     "ne_10m_lakes.shp",
     "ne_10m_geography_marine_polys.shp",
     "ne_50m_geography_regions_polys.shp",
-    "ne_50m_admin_1_states_provinces.shp",
-    "GMBA_Inventory_v2.0_standard_300.shp",
-    "ne_10m_geography_regions_polys.shp",
+#    "ne_50m_admin_1_states_provinces.shp",
+#    "GMBA_Inventory_v2.0_standard_300.shp",
+#    "ne_10m_geography_regions_polys.shp",
     "Smithsonian_VOTW_Holocene_VolcanoesPoint.shp"
  ]
 
@@ -41,7 +41,8 @@ INPUT_FILES = [
     # "volcanoes_with_name_en.geojson",
     # "world_ocean_with_name_en.geojson",
     # "hydrosphere_with_name_en.geojson",
-    "rivers_with_name_en.geojson"
+    #"rivers_with_name_en.geojson",
+    "lakes_with_name_en.geojson"
 ]
 
 # Поля, где может лежать название объекта в shapefiles
