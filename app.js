@@ -295,7 +295,7 @@ function renderNextQuizQuestion() {
    clearMap();
    removeHighlightLayers();
    document.getElementById('question').textContent =
-     `✅ Квиз завершён! Правильных: ${correctAnswers}, Ошибок: ${mistakes}`;
+     `✅ Проверка завершена! Правильных: ${correctAnswers}, Ошибок: ${mistakes}`;
 
    showQuizControls(false);
 
